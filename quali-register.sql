@@ -94,3 +94,7 @@ Foreign key (id_asig) references asignatura (id_asig)
 Alter table administrador ADD nombre varchar(50) Not Null;
 Alter table administrador ADD apellido_pat varchar(50) Not Null;
 Alter table administrador ADD apellido_mat varchar(50);
+Alter table asignatura ADD CONSTRAINT nombre_asig UNIQUE(nombre_asig);
+Alter table carrera ADD CONSTRAINT nombre_carrera UNIQUE (nombre_carrera);
+Alter table asistencia ALTER COLUMN fecha SET DEFAULT(current_date);
+Alter table asistencia ADD CONSTRAINT asistencia CHECK (asistencia >=0 OR asistencia <= 0);
