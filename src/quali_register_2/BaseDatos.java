@@ -17,7 +17,7 @@ Connection conn;
 
     public BaseDatos() {
     try {
-        conn= DriverManager.getConnection("jdbc:postgresql://localhost:5432/qualiregister", "postgres", "123");
+        conn= DriverManager.getConnection("jdbc:postgresql://localhost:5432/quali_register", "postgres", "1234");
         System.out.println("Conectado");
     } catch (SQLException ex) {
         System.err.println(ex.getMessage());

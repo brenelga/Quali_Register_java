@@ -9,9 +9,10 @@ package quali_register_2;
  * @author Jesus Brenel
  */
 public class ConsAlu {
-    String Matricula, Nombre, ApellidoP, ApellidoM, Grado, Grupo, Carrera;
+    String Matricula, Nombre, ApellidoP, ApellidoM, Grado, Grupo, Carrera, id;
 
-    public ConsAlu(String Matricula, String Nombre, String ApellidoP, String ApellidoM, String Grado, String Grupo, String Carrera) {
+    public ConsAlu(String id, String Matricula, String Nombre, String ApellidoP, String ApellidoM, String Grado, String Grupo, String Carrera) {
+        this.id = id;
         this.Matricula = Matricula;
         this.Nombre = Nombre;
         this.ApellidoP = ApellidoP;
@@ -22,6 +23,14 @@ public class ConsAlu {
     }
 
     public ConsAlu() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getMatricula() {

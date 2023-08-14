@@ -141,6 +141,11 @@ public class FPrincipal extends javax.swing.JFrame {
         cmdlogout.setForeground(new java.awt.Color(255, 255, 255));
         cmdlogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quali_register_2/inicio.jpg"))); // NOI18N
         cmdlogout.setText("Cerrar Sesión");
+        cmdlogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdlogoutActionPerformed(evt);
+            }
+        });
 
         cmdConsAsig.setBackground(new java.awt.Color(153, 153, 153));
         cmdConsAsig.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
@@ -235,6 +240,11 @@ public class FPrincipal extends javax.swing.JFrame {
         FConsultarAsignaturas fconsultarasignaturas = new FConsultarAsignaturas(bd);
         fconsultarasignaturas.setVisible(true);
     }//GEN-LAST:event_cmdConsAsigActionPerformed
+
+    private void cmdlogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdlogoutActionPerformed
+        // TODO add your handling code here:
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_cmdlogoutActionPerformed
 
     /**
      * @param args the command line arguments

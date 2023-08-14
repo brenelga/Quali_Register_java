@@ -4,6 +4,7 @@
  */
 package quali_register_2;
 import java.sql.*;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -12,24 +13,34 @@ import javax.swing.JOptionPane;
  *
  * @author Jesus Brenel
  */
-public class FAlumno extends javax.swing.JFrame {
+public class FModificarAlumno extends javax.swing.JFrame {
 
     /**
      * Creates new form FAlumno
      */
     BaseDatos bd;
-    public FAlumno(BaseDatos bd) {
+    Vector <ConsAlu> alumnos = new Vector <ConsAlu>();
+    ConsAlMod modelo = new ConsAlMod(alumnos);
+    public FModificarAlumno(BaseDatos bd) {
         initComponents();
         this.bd=bd;
-        txtNombre.setEnabled(false);
-        txtCarrera.setEnabled(false);
-        txtMatricula.setEnabled(true);
-        txtApPat.setEnabled(false);
-        txtApMat.setEnabled(false);
-        cbxGrado.setEnabled(false);
-        txtGrupo.setEnabled(false);
-        cmdAceptar.setEnabled(false);
-        cmdValidar.setEnabled(true);
+        llenarTabla();
+      
+    }
+    public void llenarTabla(){
+    try {
+        ConsAlu al;
+        
+        ResultSet r = bd.consultar("select * from alumnos");
+        while (r.next()){
+            al = new ConsAlu (r.getString(1), r.getString(2), r.getString(3), r.getString(4), r.getString(5), r.getString(6), r.getString(7), r.getString(8));
+           alumnos.add(al);
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(FConsultarAlumno.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    
+    tblAlumno.setModel(modelo);
     }
 
     /**
@@ -57,12 +68,15 @@ public class FAlumno extends javax.swing.JFrame {
         txtApMat = new javax.swing.JTextField();
         txtApPat = new javax.swing.JTextField();
         txtGrupo = new javax.swing.JTextField();
-        cbxGrado = new javax.swing.JComboBox<>();
         cmdAceptar = new javax.swing.JButton();
-        cmdCancelar = new javax.swing.JButton();
-        cmdValidar = new javax.swing.JButton();
+        cmdEliminar = new javax.swing.JButton();
         txtCarrera = new javax.swing.JTextField();
-        cmdModificar = new javax.swing.JButton();
+        txtGrado = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
+        Salir = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblAlumno = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -72,7 +86,7 @@ public class FAlumno extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/quali_register_2/Quali-Register-1(1).png"))); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 48)); // NOI18N
-        jLabel2.setText("Registro de Alumnos");
+        jLabel2.setText("Modificar Alumno");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -82,7 +96,7 @@ public class FAlumno extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(145, 145, 145)
                 .addComponent(jLabel2)
-                .addGap(0, 248, Short.MAX_VALUE))
+                .addGap(0, 293, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,36 +162,24 @@ public class FAlumno extends javax.swing.JFrame {
             }
         });
 
-        cbxGrado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11" }));
-
-        cmdAceptar.setText("Aceptar");
+        cmdAceptar.setText("Actualizar");
         cmdAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmdAceptarActionPerformed(evt);
             }
         });
 
-        cmdCancelar.setText("Cancelar");
-        cmdCancelar.addActionListener(new java.awt.event.ActionListener() {
+        cmdEliminar.setText("Eliminar");
+        cmdEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdCancelarActionPerformed(evt);
+                cmdEliminarActionPerformed(evt);
             }
         });
 
-        cmdValidar.setText("Validar");
-        cmdValidar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdValidarActionPerformed(evt);
-            }
-        });
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        jLabel10.setText("Id");
 
-        cmdModificar.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
-        cmdModificar.setText("Modificar Datos");
-        cmdModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmdModificarActionPerformed(evt);
-            }
-        });
+        Salir.setText("Salir");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -187,43 +189,45 @@ public class FAlumno extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(57, 57, 57)
-                                .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtApPat, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(cmdValidar))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel8))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtApMat, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtGrado, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addGap(57, 57, 57)
+                                    .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtApPat, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(94, 94, 94))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbxGrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtApMat, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(cmdModificar)
-                        .addGap(146, 146, 146))
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmdAceptar)
-                            .addComponent(cmdCancelar))
-                        .addContainerGap())))
+                        .addComponent(cmdAceptar)
+                        .addGap(70, 70, 70)
+                        .addComponent(cmdEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Salir)
+                        .addGap(70, 70, 70))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,27 +235,23 @@ public class FAlumno extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(cmdAceptar)
-                    .addComponent(cmdValidar))
+                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdModificar))
-                .addGap(17, 17, 17)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtApPat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmdCancelar))
-                .addGap(17, 17, 17)
+                    .addComponent(txtApPat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtApMat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(cbxGrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtGrado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -260,22 +260,57 @@ public class FAlumno extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(txtCarrera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmdAceptar)
+                    .addComponent(cmdEliminar)
+                    .addComponent(Salir))
+                .addGap(45, 45, 45))
         );
+
+        tblAlumno.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblAlumno.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAlumnoMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblAlumno);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 3, Short.MAX_VALUE))))
         );
 
         pack();
@@ -303,42 +338,36 @@ public class FAlumno extends javax.swing.JFrame {
 
     private void cmdAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAceptarActionPerformed
         // TODO add your handling code here:
-        bd.actualizar("Insert into alumnos (matricula, nombre, apellido_paterno, apellido_materno, grado, grupo, carrera) values("+Double.valueOf(txtMatricula.getText())+",'"+txtNombre.getText()+"','"+txtApPat.getText()+"','"+txtApMat.getText()+"',"+Integer.valueOf(cbxGrado.getSelectedItem().toString())+",'"+txtGrupo.getText()+"',"+Integer.valueOf(txtCarrera.getText())+")");
+        bd.actualizar("update alumnos set matricula="+txtMatricula.getText()+", Nombre='"+txtNombre.getText()+"', apellido_paterno='"+txtApPat.getText()+"', apellido_materno='"+txtApMat.getText()+"', grado="+txtGrado.getText()+"grupo='"+txtGrupo.getText()+"', carrera="+txtCarrera.getText()+"where idalumno="+txtId.getText()+";");
+        JOptionPane.showMessageDialog(null, "Registro actualizado de manera exitosa");
+        txtMatricula.setText("");
+        txtNombre.setText("");
+        txtApPat.setText("");
+        txtApMat.setText("");
+        txtGrado.setText("");
+        txtGrupo.setText("");
+        txtCarrera.setText("");
+        txtId.setText("");    
     }//GEN-LAST:event_cmdAceptarActionPerformed
 
-    private void cmdValidarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdValidarActionPerformed
-        try {
-            // TODO add your handling code here:
-            ResultSet r = bd.consultar("Select * from alumnos values where matricula ="+Double.valueOf(txtMatricula.getText()));
-            if(r.next()){
-                JOptionPane.showMessageDialog(null, "El alumno ya ha sido registrado, intente de nuevo con otra matricula");
-                txtMatricula.setText("");
-            }else{
-                txtNombre.enable(true);
-                txtApPat.enable(true);
-                txtApMat.enable(true);
-                cbxGrado.enable(true);
-                txtGrupo.enable(true);
-                txtCarrera.setEnabled(true);
-                txtMatricula.enable(false);
-                cmdAceptar.setEnabled(true);
-                cmdValidar.setEnabled(false);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(FAlumno.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_cmdValidarActionPerformed
-
-    private void cmdCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCancelarActionPerformed
+    private void cmdEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdEliminarActionPerformed
         // TODO add your handling code here:
+        bd.actualizar("delete from alumnos where idalumno ="+txtId.getText()+";");
+        JOptionPane.showMessageDialog(null, "Registro Eliminado de Manera Exitosa");
        
-    }//GEN-LAST:event_cmdCancelarActionPerformed
+    }//GEN-LAST:event_cmdEliminarActionPerformed
 
-    private void cmdModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdModificarActionPerformed
+    private void tblAlumnoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAlumnoMouseClicked
         // TODO add your handling code here:
-        FModificarAlumno fmodificaralumno = new FModificarAlumno(bd);
-        fmodificaralumno.setVisible(true);
-    }//GEN-LAST:event_cmdModificarActionPerformed
+        txtId.setText(modelo.getValueAt(tblAlumno.getSelectedRow(), 0).toString());
+        txtMatricula.setText(modelo.getValueAt(tblAlumno.getSelectedRow(), 1).toString());
+        txtNombre.setText(modelo.getValueAt(tblAlumno.getSelectedRow(), 2).toString());
+        txtApPat.setText(modelo.getValueAt(tblAlumno.getSelectedRow(), 3).toString());
+        txtApMat.setText(modelo.getValueAt(tblAlumno.getSelectedRow(), 4).toString());
+        txtGrado.setText(modelo.getValueAt(tblAlumno.getSelectedRow(), 5).toString());
+        txtGrupo.setText(modelo.getValueAt(tblAlumno.getSelectedRow(), 6).toString());
+        txtCarrera.setText(modelo.getValueAt(tblAlumno.getSelectedRow(), 7).toString());
+    }//GEN-LAST:event_tblAlumnoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -346,12 +375,11 @@ public class FAlumno extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> cbxGrado;
+    private javax.swing.JButton Salir;
     private javax.swing.JButton cmdAceptar;
-    private javax.swing.JButton cmdCancelar;
-    private javax.swing.JButton cmdModificar;
-    private javax.swing.JButton cmdValidar;
+    private javax.swing.JButton cmdEliminar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -362,10 +390,14 @@ public class FAlumno extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblAlumno;
     private javax.swing.JTextField txtApMat;
     private javax.swing.JTextField txtApPat;
     private javax.swing.JTextField txtCarrera;
+    private javax.swing.JTextField txtGrado;
     private javax.swing.JTextField txtGrupo;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtMatricula;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables

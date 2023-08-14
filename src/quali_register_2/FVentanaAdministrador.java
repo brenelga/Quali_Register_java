@@ -31,7 +31,7 @@ public class FVentanaAdministrador extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         cmdRegAl = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        cmdCarrera = new javax.swing.JButton();
         cmdAsignatura = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -76,8 +76,13 @@ public class FVentanaAdministrador extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jButton2.setText("Registro de Carrera");
+        cmdCarrera.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        cmdCarrera.setText("Registro de Carrera");
+        cmdCarrera.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdCarreraActionPerformed(evt);
+            }
+        });
 
         cmdAsignatura.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         cmdAsignatura.setText("Registro de Asignatura");
@@ -89,6 +94,11 @@ public class FVentanaAdministrador extends javax.swing.JFrame {
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jButton4.setText("Registro de Cordinador");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jButton5.setText("Salir");
@@ -103,7 +113,7 @@ public class FVentanaAdministrador extends javax.swing.JFrame {
                         .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cmdRegAl)
-                            .addComponent(jButton2))
+                            .addComponent(cmdCarrera))
                         .addGap(153, 153, 153)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton4)
@@ -122,7 +132,7 @@ public class FVentanaAdministrador extends javax.swing.JFrame {
                     .addComponent(cmdAsignatura))
                 .addGap(77, 77, 77)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
+                    .addComponent(cmdCarrera)
                     .addComponent(jButton4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addComponent(jButton5)
@@ -162,6 +172,20 @@ public class FVentanaAdministrador extends javax.swing.JFrame {
         
     }//GEN-LAST:event_cmdAsignaturaActionPerformed
 
+    private void cmdCarreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCarreraActionPerformed
+        // TODO add your handling code here:
+        BaseDatos bd = new BaseDatos();
+        FCarrera fcarrera = new FCarrera(bd);
+        fcarrera.setVisible(true);
+    }//GEN-LAST:event_cmdCarreraActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        BaseDatos bd = new BaseDatos();
+        FCoordinador fcoordinador = new FCoordinador(bd);
+        fcoordinador.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -169,8 +193,8 @@ public class FVentanaAdministrador extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdAsignatura;
+    private javax.swing.JButton cmdCarrera;
     private javax.swing.JButton cmdRegAl;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;

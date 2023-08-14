@@ -26,7 +26,7 @@ public class ConsAlMod implements TableModel {
 
     @Override
     public int getColumnCount() {
-        return 7;
+        return 8;
     }
 
     @Override
@@ -34,24 +34,27 @@ public class ConsAlMod implements TableModel {
         String titulo ="";
         switch (columnIndex){
             case 0:
-                    titulo = "Matricula";
+                    titulo = "Id";
             break;
             case 1:
-                    titulo = "Nombre";
+                    titulo = "Matricula";
             break;
             case 2:
-                    titulo = "Apellido Paterno";
+                    titulo = "Nombre";
             break;
             case 3:
-                    titulo = "Apellido Materno";
+                    titulo = "Apellido Paterno";
             break;
             case 4:
+                    titulo = "Apellido Materno";
+            break;
+            case 5:
                     titulo = "Grado";
             break;
-            case 5: 
+            case 6: 
                     titulo = "Grupo";
             break;
-            case 6:
+            case 7:
                     titulo = "Carrera";
             break;
     }
@@ -74,24 +77,27 @@ public class ConsAlMod implements TableModel {
         ConsAlu al = alumno.elementAt(rowIndex);
         switch (columnIndex){
             case 0:
-                   valor = al.getMatricula();
+                   valor = al.getId();
             break;
             case 1:
-                   valor = al.getNombre();
+                   valor = al.getMatricula();
             break;
             case 2:
-                   valor = al.getApellidoP();
+                   valor = al.getNombre();
             break;
             case 3:
-                   valor = al.getApellidoM();
+                   valor = al.getApellidoP();
             break;
             case 4:
-                    valor = al.getGrado();
+                   valor = al.getApellidoM();
             break;
             case 5:
-                    valor = al.getGrupo();
+                    valor = al.getGrado();
             break;
             case 6:
+                    valor = al.getGrupo();
+            break;
+            case 7:
                     valor = al.getCarrera();
             break;
         }
@@ -103,24 +109,27 @@ public class ConsAlMod implements TableModel {
         ConsAlu al =alumno.elementAt(rowIndex);
         switch(columnIndex){
             case 0:
-                al.setMatricula(aValue.toString());
+                al.setId(aValue.toString());
             break;
             case 1:
-                al.setNombre(aValue.toString());
+                al.setMatricula(aValue.toString());
             break;
             case 2:
-                al.setApellidoP(aValue.toString());
+                al.setNombre(aValue.toString());
             break;
             case 3:
-                al.setApellidoM(aValue.toString());
+                al.setApellidoP(aValue.toString());
             break;
             case 4:
-                al.setGrado(aValue.toString());
+                al.setApellidoM(aValue.toString());
             break;
             case 5:
-                al.setGrupo(aValue.toString());
+                al.setGrado(aValue.toString());
             break;
             case 6:
+                al.setGrupo(aValue.toString());
+            break;
+            case 7:
                 al.setCarrera(aValue.toString());
             break;
             

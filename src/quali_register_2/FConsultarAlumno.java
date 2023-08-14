@@ -33,7 +33,7 @@ Vector <ConsAlu> alumnos = new Vector <ConsAlu>();
         
         ResultSet r = bd.consultar("select * from alumnos where grado ="+Integer.valueOf(cbxGrado.getSelectedItem().toString())+"and grupo ='"+cbxGrupo.getSelectedItem().toString()+"'");
         while (r.next()){
-            al = new ConsAlu (r.getString(1), r.getString(2), r.getString(3), r.getString(4), r.getString(5), r.getString(6), r.getString(7));
+            al = new ConsAlu (r.getString(1), r.getString(2), r.getString(3), r.getString(4), r.getString(5), r.getString(6), r.getString(7), r.getString(8));
            alumnos.add(al);
         }
     } catch (SQLException ex) {

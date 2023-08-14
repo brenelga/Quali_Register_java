@@ -26,8 +26,8 @@ public class FRegistro extends javax.swing.JFrame {
         txtNombre.enable(false);
         txtApP.enable(false);
         txtApM.enable(false);
-        txtContrasena.enable(false);
-        cmdRegistro.enable(false);
+        txtContrasena.setEnabled(false);
+        cmdRegistro.setEnabled(false);
     }
 
     /**
@@ -326,8 +326,8 @@ public class FRegistro extends javax.swing.JFrame {
                 txtApP.enable(true);
                 txtApM.enable(true);
                 txtContrasena.enable(true);
-                cmdRegistro.enable(true);
-                cmdValidar.enable(false);
+                cmdRegistro.setEnabled(true);
+                cmdValidar.setEnabled(true);
             }
         } catch (SQLException ex) {
             Logger.getLogger(FRegistro.class.getName()).log(Level.SEVERE, null, ex);

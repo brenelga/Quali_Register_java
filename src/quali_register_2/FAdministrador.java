@@ -41,8 +41,9 @@ public class FAdministrador extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         cmdLogin = new javax.swing.JButton();
         txtContrasena = new javax.swing.JPasswordField();
+        cmdRegistro = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 204));
 
@@ -87,6 +88,13 @@ public class FAdministrador extends javax.swing.JFrame {
             }
         });
 
+        cmdRegistro.setText("Registrar Administrador");
+        cmdRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdRegistroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -103,9 +111,11 @@ public class FAdministrador extends javax.swing.JFrame {
                             .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
                             .addComponent(txtContrasena)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(397, 397, 397)
+                        .addContainerGap()
+                        .addComponent(cmdRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(228, 228, 228)
                         .addComponent(cmdLogin)))
-                .addContainerGap(247, Short.MAX_VALUE))
+                .addContainerGap(249, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,9 +128,15 @@ public class FAdministrador extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(61, 61, 61)
-                .addComponent(cmdLogin)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(cmdLogin)
+                        .addContainerGap(26, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cmdRegistro)
+                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -145,7 +161,7 @@ public class FAdministrador extends javax.swing.JFrame {
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
         try {
             // TODO add your handling code here:
-            ResultSet r=bd.consultar("select * from administrador where usuario='"+txtUsuario.getText()+"' and contrasena_admin='"+txtContrasena.getText()+"'");
+            ResultSet r=bd.consultar("select * from administrador where usuario='"+txtUsuario.getText()+"' and constrasena_admin='"+txtContrasena.getText()+"'");
             if (r.next()){
                 JOptionPane.showMessageDialog(null, "Bienvenido "+txtUsuario.getText());
                 FVentanaAdministrador fventanaadministrador = new FVentanaAdministrador();
@@ -162,6 +178,12 @@ public class FAdministrador extends javax.swing.JFrame {
         
     }//GEN-LAST:event_cmdLoginActionPerformed
 
+    private void cmdRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegistroActionPerformed
+        // TODO add your handling code here:
+        FRegAdmin fregadmin = new FRegAdmin(bd);
+        fregadmin.setVisible(true);
+    }//GEN-LAST:event_cmdRegistroActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -169,6 +191,7 @@ public class FAdministrador extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cmdLogin;
+    private javax.swing.JButton cmdRegistro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
